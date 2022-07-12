@@ -5,7 +5,7 @@ plugins {
     `maven-publish`
 }
 
-group = "com.github.doist.detektrules"
+group = "com.doist.detekt"
 version = "1.0-SNAPSHOT"
 
 repositories {
