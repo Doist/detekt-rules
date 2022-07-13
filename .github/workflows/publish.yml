@@ -2,7 +2,10 @@ name: Publish package to GitHub Packages
 
 on:
   release:
-    types: [ created ]
+    types: [ published ]
+  workflow_run:
+    workflows: [ Release ]
+    types: [ completed ]
 
 jobs:
   publish:
