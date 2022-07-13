@@ -1,3 +1,5 @@
 DoistRuleSet:
   NoBlankNewLineAfterClassHeader:
     active: true
+  ConsistentWhenEntries:
+    active: true

@@ -29,3 +29,7 @@ After that GitHub actions will automatically create new release and publish it.
 ### NoBlankNewLineAfterClassHeader
 
 This rule reports every class that has an empty line between a class header and its body.
+
+### ConsistentWhenEntries
+
+This rule reports when statements that have some entries single line and some multiline. 
