@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test
 
 @KotlinCoreEnvironmentTest
 internal class NoBlankNewLineAfterClassHeaderTest(private val env: KotlinCoreEnvironment) {
-
     @Test
     fun `reports blank line after class header`() {
         val code = """
