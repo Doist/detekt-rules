@@ -33,3 +33,34 @@ This rule reports every class that has an empty line between a class header and 
 ### ConsistentWhenEntries
 
 This rule reports when statements that have some entries single line and some multiline. 
+
+### SingleLineWhenEntryExpressionsAreWrapped
+
+This rule reports every when entry expression that is on a separate line and is not wrapped with 
+brackets.
+
+For example this is incorrect:
+```kotlin
+val a = when {
+    c == b ->
+        true
+    else ->
+        false
+}
+```
+Instead it should be:
+```kotlin
+val a = when {
+    c == b -> true
+    else -> false
+}
+// or
+val a = when {
+    c == b -> {
+        true
+    }
+    else -> {
+        false
+    }
+}
+```

@@ -3,3 +3,5 @@ DoistRuleSet:
     active: true
   ConsistentWhenEntries:
     active: true
+  SingleLineWhenEntryExpressionsAreWrapped:
+    active: true
