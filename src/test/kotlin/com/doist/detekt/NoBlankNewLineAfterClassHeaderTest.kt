@@ -1,4 +1,4 @@
-package com.github.doist.detektrules
+package com.doist.detekt
 
 import io.gitlab.arturbosch.detekt.api.Config
 import io.gitlab.arturbosch.detekt.rules.KotlinCoreEnvironmentTest
@@ -8,27 +8,30 @@ import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.junit.jupiter.api.Test
 
 @KotlinCoreEnvironmentTest
-internal class MyRuleTest(private val env: KotlinCoreEnvironment) {
+internal class NoBlankNewLineAfterClassHeaderTest(private val env: KotlinCoreEnvironment) {
 
     @Test
-    fun `reports inner classes`() {
+    fun `reports blank line after class header`() {
         val code = """
         class A {
-          inner class B
+          
+          val b = true
         }
         """
-        val findings = MyRule(Config.empty).compileAndLintWithContext(env, code)
+        val rule = NoBlankNewLineAfterClassHeader(Config.empty)
+        val findings = rule.compileAndLintWithContext(env, code)
         findings shouldHaveSize 1
     }
 
     @Test
-    fun `doesn't report inner classes`() {
+    fun `doesn't report blank line after class header`() {
         val code = """
         class A {
-          class B
+          val b = true
         }
         """
-        val findings = MyRule(Config.empty).compileAndLintWithContext(env, code)
+        val rule = NoBlankNewLineAfterClassHeader(Config.empty)
+        val findings = rule.compileAndLintWithContext(env, code)
         findings shouldHaveSize 0
     }
 }

@@ -1,17 +1,17 @@
-package com.github.doist.detektrules
+package com.doist.detekt
 
 import io.gitlab.arturbosch.detekt.api.Config
 import io.gitlab.arturbosch.detekt.api.RuleSet
 import io.gitlab.arturbosch.detekt.api.RuleSetProvider
 
-class MyRuleSetProvider : RuleSetProvider {
-    override val ruleSetId: String = "MyRuleSet"
+class DoistRuleSetProvider : RuleSetProvider {
+    override val ruleSetId: String = "DoistRuleSet"
 
     override fun instance(config: Config): RuleSet {
         return RuleSet(
             ruleSetId,
             listOf(
-                MyRule(config),
+                NoBlankNewLineAfterClassHeader(config),
             ),
         )
     }
