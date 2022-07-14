@@ -7,3 +7,5 @@ DoistRuleSet:
     active: true
   MutableObservablePropertyIsPrivate:
     active: true
+  NoNotNullOperator:
+    active: true
