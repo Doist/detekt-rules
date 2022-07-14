@@ -16,7 +16,7 @@ internal class ConsistentWhenEntriesTest(private val env: KotlinCoreEnvironment)
                 1 == 1 -> {
                     true
                 }
-                2 == 2 -> false
+                else -> false
             }
         """
         val rule = ConsistentWhenEntries(Config.empty)
@@ -31,7 +31,7 @@ internal class ConsistentWhenEntriesTest(private val env: KotlinCoreEnvironment)
                 1 == 1 -> {
                     true
                 }
-                2 == 2 -> {
+                else -> {
                     false
                 }
             }
@@ -46,7 +46,7 @@ internal class ConsistentWhenEntriesTest(private val env: KotlinCoreEnvironment)
         val code = """
             val a = when {
                 1 == 1 -> true
-                2 == 2 -> false
+                else -> false
             }
         """
         val rule = ConsistentWhenEntries(Config.empty)
