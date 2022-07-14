@@ -26,11 +26,10 @@ class NoBlankNewLineAfterClassHeader(config: Config) : Rule(config) {
         val whiteSpaceAfterLBrace = lBrace.nextSibling as? PsiWhiteSpace ?: return
 
         if (whiteSpaceAfterLBrace.text.count { it == '\n' } > 1) {
-            val klass = classBody.parent as KtClass
             val codeSmell = CodeSmell(
                 issue = issue,
                 entity = Entity.from(whiteSpaceAfterLBrace),
-                message = "Class ${klass.name} has blank line after the header",
+                message = "Unnecessary blank line after the header",
             )
             report(codeSmell)
         }
