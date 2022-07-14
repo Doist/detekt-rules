@@ -68,4 +68,8 @@ val a = when {
 ### MutableObservablePropertyIsPrivate
 
 This rule reports exposed `MutableLive...` and `MutableStateFlow` properties. They should be 
-private.   
+private.
+
+### NoNotNullOperator
+
+This rule reports `!!` usage. `requireNotNull` should be used instead.
