@@ -5,3 +5,5 @@ DoistRuleSet:
     active: true
   SingleLineWhenEntryExpressionsAreWrapped:
     active: true
+  MutableObservablePropertyIsPrivate:
+    active: true

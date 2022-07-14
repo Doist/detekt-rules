@@ -64,3 +64,8 @@ val a = when {
     }
 }
 ```
+
+### MutableObservablePropertyIsPrivate
+
+This rule reports exposed `MutableLive...` and `MutableStateFlow` properties. They should be 
+private.   
