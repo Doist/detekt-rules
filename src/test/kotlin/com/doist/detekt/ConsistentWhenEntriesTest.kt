@@ -12,12 +12,12 @@ internal class ConsistentWhenEntriesTest(private val env: KotlinCoreEnvironment)
     @Test
     fun `reports inconsistent when entries`() {
         val code = """
-        val a = when {
-            1 == 1 -> {
-                true
+            val a = when {
+                1 == 1 -> {
+                    true
+                }
+                2 == 2 -> false
             }
-            2 == 2 -> false
-        }
         """
         val rule = ConsistentWhenEntries(Config.empty)
         val findings = rule.compileAndLintWithContext(env, code)
@@ -27,14 +27,14 @@ internal class ConsistentWhenEntriesTest(private val env: KotlinCoreEnvironment)
     @Test
     fun `doesn't report multiline when entries`() {
         val code = """
-        val a = when {
-            1 == 1 -> {
-                true
+            val a = when {
+                1 == 1 -> {
+                    true
+                }
+                2 == 2 -> {
+                    false
+                }
             }
-            2 == 2 -> {
-                false
-            }
-        }
         """
         val rule = ConsistentWhenEntries(Config.empty)
         val findings = rule.compileAndLintWithContext(env, code)
@@ -44,10 +44,10 @@ internal class ConsistentWhenEntriesTest(private val env: KotlinCoreEnvironment)
     @Test
     fun `doesn't report single line when entries`() {
         val code = """
-        val a = when {
-            1 == 1 -> true
-            2 == 2 -> false
-        }
+            val a = when {
+                1 == 1 -> true
+                2 == 2 -> false
+            }
         """
         val rule = ConsistentWhenEntries(Config.empty)
         val findings = rule.compileAndLintWithContext(env, code)

@@ -12,10 +12,10 @@ internal class NoBlankNewLineAfterClassHeaderTest(private val env: KotlinCoreEnv
     @Test
     fun `reports blank line after class header`() {
         val code = """
-        class A {
-          
-          val b = true
-        }
+            class A {
+              
+              val b = true
+            }
         """
         val rule = NoBlankNewLineAfterClassHeader(Config.empty)
         val findings = rule.compileAndLintWithContext(env, code)
@@ -25,9 +25,9 @@ internal class NoBlankNewLineAfterClassHeaderTest(private val env: KotlinCoreEnv
     @Test
     fun `doesn't report blank line after class header`() {
         val code = """
-        class A {
-          val b = true
-        }
+            class A {
+              val b = true
+            }
         """
         val rule = NoBlankNewLineAfterClassHeader(Config.empty)
         val findings = rule.compileAndLintWithContext(env, code)

@@ -12,9 +12,9 @@ internal class MutableObservablePropertyIsPrivateTest(private val env: KotlinCor
     @Test
     fun `reports public mutable property`() {
         val code = """
-        val a: MutableLiveData<String>
-        val b: MutableLiveData<String>
-        val c: MutableLiveData<String>
+            val a: MutableLiveData<String>
+            val b: MutableLiveData<String>
+            val c: MutableLiveData<String>
         """
         val rule = MutableObservablePropertyIsPrivate(Config.empty)
         val findings = rule.compileAndLintWithContext(env, code)
@@ -24,9 +24,9 @@ internal class MutableObservablePropertyIsPrivateTest(private val env: KotlinCor
     @Test
     fun `reports initialized public mutable property`() {
         val code = """
-        val a = MutableLiveData<String>()
-        val b = MutableStateFlow<String>()
-        val c = MutableLiveEvent<String>()
+            val a = MutableLiveData<String>()
+            val b = MutableStateFlow<String>()
+            val c = MutableLiveEvent<String>()
         """
         val rule = MutableObservablePropertyIsPrivate(Config.empty)
         val findings = rule.compileAndLintWithContext(env, code)
@@ -36,9 +36,9 @@ internal class MutableObservablePropertyIsPrivateTest(private val env: KotlinCor
     @Test
     fun `reports protected mutable property`() {
         val code = """
-        protected val a: MutableLiveData<String>
-        protected val b: MutableLiveData<String>
-        protected val c: MutableLiveData<String>
+            protected val a: MutableLiveData<String>
+            protected val b: MutableLiveData<String>
+            protected val c: MutableLiveData<String>
         """
         val rule = MutableObservablePropertyIsPrivate(Config.empty)
         val findings = rule.compileAndLintWithContext(env, code)
@@ -48,9 +48,9 @@ internal class MutableObservablePropertyIsPrivateTest(private val env: KotlinCor
     @Test
     fun `reports initialized protected mutable property`() {
         val code = """
-        protected val a = MutableLiveData<String>()
-        protected val b = MutableStateFlow<String>()
-        protected val c = MutableLiveEvent<String>()
+            protected val a = MutableLiveData<String>()
+            protected val b = MutableStateFlow<String>()
+            protected val c = MutableLiveEvent<String>()
         """
         val rule = MutableObservablePropertyIsPrivate(Config.empty)
         val findings = rule.compileAndLintWithContext(env, code)
@@ -60,9 +60,9 @@ internal class MutableObservablePropertyIsPrivateTest(private val env: KotlinCor
     @Test
     fun `doesn't reports private mutable property`() {
         val code = """
-        private val a: MutableLiveData<String>
-        private val b: MutableStateFlow<String>
-        private val c: MutableLiveEvent<String>
+            private val a: MutableLiveData<String>
+            private val b: MutableStateFlow<String>
+            private val c: MutableLiveEvent<String>
         """
         val rule = MutableObservablePropertyIsPrivate(Config.empty)
         val findings = rule.compileAndLintWithContext(env, code)
@@ -72,9 +72,9 @@ internal class MutableObservablePropertyIsPrivateTest(private val env: KotlinCor
     @Test
     fun `doesn't reports private initialized mutable property`() {
         val code = """
-        private val a = MutableLiveData<String>()
-        private val b = MutableStateFlow<String>()
-        private val c = MutableLiveEvent<String>()
+            private val a = MutableLiveData<String>()
+            private val b = MutableStateFlow<String>()
+            private val c = MutableLiveEvent<String>()
         """
         val rule = MutableObservablePropertyIsPrivate(Config.empty)
         val findings = rule.compileAndLintWithContext(env, code)

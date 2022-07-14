@@ -14,13 +14,13 @@ internal class SingleLineWhenEntryExpressionsAreWrappedTest(
     @Test
     fun `reports missing brackets in when entry expression`() {
         val code = """
-        val a = when {
-            1 == 1 -> 
-                true
-            else -> {
-                false
+            val a = when {
+                1 == 1 -> 
+                    true
+                else -> {
+                    false
+                }
             }
-        }
         """
         val rule = SingleLineWhenEntryExpressionsAreWrapped(Config.empty)
         val findings = rule.compileAndLintWithContext(env, code)
@@ -30,10 +30,10 @@ internal class SingleLineWhenEntryExpressionsAreWrappedTest(
     @Test
     fun `doesn't report when brackets are not needed`() {
         val code = """
-        val a = when {
-            1 == 1 -> true
-            else -> false
-        }
+            val a = when {
+                1 == 1 -> true
+                else -> false
+            }
         """
         val rule = SingleLineWhenEntryExpressionsAreWrapped(Config.empty)
         val findings = rule.compileAndLintWithContext(env, code)
@@ -43,14 +43,14 @@ internal class SingleLineWhenEntryExpressionsAreWrappedTest(
     @Test
     fun `doesn't report single line when entries with brackets`() {
         val code = """
-        val a = when {
-            1 == 1 -> {
-                true
+            val a = when {
+                1 == 1 -> {
+                    true
+                }
+                else -> {
+                    false
+                }
             }
-            else -> {
-                false
-            }
-        }
         """
         val rule = SingleLineWhenEntryExpressionsAreWrapped(Config.empty)
         val findings = rule.compileAndLintWithContext(env, code)

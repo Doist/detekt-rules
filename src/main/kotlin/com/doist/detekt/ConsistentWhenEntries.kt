@@ -33,5 +33,5 @@ class ConsistentWhenEntries(config: Config) : Rule(config) {
         }
     }
 
-    private fun KtWhenEntry.isMultiline() = text.count { it == '\n'} > 1
+    private fun KtWhenEntry.isMultiline() = text.count { it == '\n' } > 1
 }
