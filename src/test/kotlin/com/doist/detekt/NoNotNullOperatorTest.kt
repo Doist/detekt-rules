@@ -10,10 +10,21 @@ import org.junit.jupiter.api.Test
 @KotlinCoreEnvironmentTest
 internal class NoNotNullOperatorTest(private val env: KotlinCoreEnvironment) {
     @Test
-    fun `reports !! usage`() {
+    fun `reports !! usage in the assignment`() {
         val code = """
             val a: String? = ""
             val b = a!!
+        """
+        val rule = NoNotNullOperator(Config.empty)
+        val findings = rule.compileAndLintWithContext(env, code)
+        findings shouldHaveSize 1
+    }
+
+    @Test
+    fun `reports !! usage before calling a method`() {
+        val code = """
+            val a: String? = ""
+            val b = a!!.length
         """
         val rule = NoNotNullOperator(Config.empty)
         val findings = rule.compileAndLintWithContext(env, code)
