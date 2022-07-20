@@ -73,3 +73,7 @@ private.
 ### NoNotNullOperator
 
 This rule reports `!!` usage. `requireNotNull` should be used instead.
+
+### TodoPattern
+
+Reports when TODO comment does not match a pattern. Default pattern is `// TODO(.+): .*`.
