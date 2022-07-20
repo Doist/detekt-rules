@@ -9,3 +9,6 @@ DoistRuleSet:
     active: true
   NoNotNullOperator:
     active: true
+  TodoPattern:
+    active: true
+    pattern: '// TODO(.+): .*'
