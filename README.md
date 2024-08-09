@@ -77,3 +77,24 @@ This rule reports `!!` usage. `requireNotNull` should be used instead.
 ### TodoPattern
 
 Reports when TODO comment does not match a pattern. Default pattern is `// TODO(.+): .*`.
+
+
+### NewLineAfterSuperCall
+
+This rule reports if an override function does not have a new line after the super call.
+
+For example this is incorrect:
+```kotlin
+ override fun foo() {
+    super.foo()
+    bar.bazinga()
+}
+```
+Instead it should be:
+```kotlin
+ override fun foo() {
+    super.foo()
+    
+    bar.bazinga()
+}
+```
