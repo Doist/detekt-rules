@@ -19,8 +19,9 @@ class NewLineAfterSuperCall(config: Config = Config.empty) : Rule(config) {
 
     override fun visitNamedFunction(function: KtNamedFunction) {
         super.visitNamedFunction(function)
+
         function.bodyBlockExpression?.statements?.forEachIndexed { index, statement ->
-            if (statement.text?.startsWith("super") == true) {
+            if (statement.text?.startsWith("super.") == true) {
                 if (statement.nextSibling.text.contains("\n\n")) return
                 report(
                     CodeSmell(
