@@ -12,3 +12,5 @@ DoistRuleSet:
   TodoPattern:
     active: true
     pattern: '// TODO(.+): .*'
+  NewLineAfterSuperCall:
+    active: true
