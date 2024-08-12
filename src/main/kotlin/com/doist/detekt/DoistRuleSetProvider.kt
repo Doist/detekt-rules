@@ -12,6 +12,13 @@ class DoistRuleSetProvider : RuleSetProvider {
             ruleSetId,
             listOf(
                 NoBlankNewLineAfterClassHeader(config),
+                ConsistentWhenEntries(config),
+                MutableObservablePropertyIsPrivate(config),
+                NewLineAfterSuperCall(config),
+                NoBlankNewLineAfterClassHeader(config),
+                NoNotNullOperator(config),
+                SingleLineWhenEntryExpressionsAreWrapped(config),
+                TodoPattern(config),
             ),
         )
     }
