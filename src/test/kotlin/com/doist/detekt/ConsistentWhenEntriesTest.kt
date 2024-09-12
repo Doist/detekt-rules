@@ -53,4 +53,38 @@ internal class ConsistentWhenEntriesTest(private val env: KotlinCoreEnvironment)
         val findings = rule.compileAndLintWithContext(env, code)
         findings shouldHaveSize 0
     }
+
+    @Test
+    fun `doesn't report single line when entries with multiple conditions and trailing comma`() {
+        val code = """
+            val a = listOf<Int>()
+            val b = when(a) {
+                is ArrayList,
+                is MutableList,
+                -> true
+                else -> false
+            }
+        """
+        val rule = ConsistentWhenEntries(Config.empty)
+        val findings = rule.compileAndLintWithContext(env, code)
+        findings shouldHaveSize 0
+    }
+
+    @Test
+    fun `report inconsistent when entries with multiple conditions and trailing comma`() {
+        val code = """
+            val a = listOf<Int>()
+            val b = when(a) {
+                is ArrayList,
+                is MutableList,
+                -> {
+                    true
+                }
+                else -> false
+            }
+        """
+        val rule = ConsistentWhenEntries(Config.empty)
+        val findings = rule.compileAndLintWithContext(env, code)
+        findings shouldHaveSize 1
+    }
 }
