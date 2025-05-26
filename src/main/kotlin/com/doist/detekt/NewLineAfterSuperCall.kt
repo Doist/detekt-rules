@@ -20,9 +20,14 @@ class NewLineAfterSuperCall(config: Config = Config.empty) : Rule(config) {
     override fun visitNamedFunction(function: KtNamedFunction) {
         super.visitNamedFunction(function)
 
-        function.bodyBlockExpression?.statements?.forEachIndexed { index, statement ->
+        val statements = function.bodyBlockExpression?.statements
+
+        statements?.forEachIndexed { index, statement ->
             if (statement.text?.startsWith("super.") == true) {
-                if (statement.nextSibling.text.contains("\n\n")) return
+                // Don't report if this is the last statement
+                if (index == statements.lastIndex) return@forEachIndexed
+                
+                if (statement.nextSibling.text.contains("\n\n")) return@forEachIndexed
                 report(
                     CodeSmell(
                         issue,
