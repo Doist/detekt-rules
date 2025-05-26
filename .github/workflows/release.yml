@@ -11,4 +11,4 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
-      - uses: softprops/action-gh-release@a80139913ad69754b738283897e8a1e3362b1a03
+      - uses: softprops/action-gh-release@b4025e2cdd6e8c3ebde4107d4b5a6bac5e66818b
