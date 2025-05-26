@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -20,8 +21,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
 }
 
-tasks.withType<KotlinCompile>() {
-    kotlinOptions.jvmTarget = "11"
+kotlin {
+    jvmToolchain(17)
 }
 
 tasks.withType<Test>().configureEach {
