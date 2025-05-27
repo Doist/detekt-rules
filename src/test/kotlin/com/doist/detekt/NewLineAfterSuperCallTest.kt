@@ -36,4 +36,30 @@ internal class NewLineAfterSuperCallTest(private val env: KotlinCoreEnvironment)
         val findings = NewLineAfterSuperCall().lint(code)
         assertEquals(0, findings.size)
     }
+
+    @Test
+    fun `should not report when super() call is the last line`() {
+        val code = """
+            override fun foo() {
+                bar.bazinga()
+
+                super.foo()
+            }
+        """
+
+        val findings = NewLineAfterSuperCall().lint(code)
+        assertEquals(0, findings.size)
+    }
+
+    @Test
+    fun `should not report when super() call is the only line`() {
+        val code = """
+            override fun foo() {
+                super.foo()
+            }
+        """
+
+        val findings = NewLineAfterSuperCall().lint(code)
+        assertEquals(0, findings.size)
+    }
 }
