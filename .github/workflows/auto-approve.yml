@@ -6,7 +6,7 @@ on:
 
 jobs:
   auto-approve:
-    runs-on: ubicloud
+    runs-on: ubuntu-latest
     permissions:
       pull-requests: write
     steps:
