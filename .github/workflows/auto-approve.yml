@@ -1,0 +1,22 @@
+name: Auto approve
+
+on:
+  pull_request:
+    types: [ labeled ]
+
+jobs:
+  auto-approve:
+    runs-on: ubicloud
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout actions repository
+        uses: actions/checkout@v4
+        with:
+          repository: Doist/actions
+          path: ./.doist/actions
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: ./.doist/actions/auto-approve-action
+        if: ${{ github.event.label.name == 'Show PR' }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

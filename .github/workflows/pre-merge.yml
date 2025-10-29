@@ -14,27 +14,27 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
-      - name: Run tests
+      - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          arguments: test
+      - name: Run tests
+        run: ./gradlew test
   publish:
     name: Check that the publish plugin works
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
-      - name: Check that the publish plugin works
+      - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          arguments: publishToMavenLocal
+      - name: Check that the publish plugin works
+        run: ./gradlew publishToMavenLocal
   compile-test-snippets:
     name: Compile test snippets
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
-      - name: Compile the snippets in the tests
+      - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          arguments: test -Pcompile-test-snippets
+      - name: Compile the snippets in the tests
+        run: ./gradlew test -Pcompile-test-snippets
