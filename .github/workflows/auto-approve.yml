@@ -6,7 +6,7 @@ on:
 
 jobs:
   auto-approve:
-    runs-on: ubicloud
+    runs-on: ubuntu-latest
     permissions:
       pull-requests: write
     steps:
@@ -15,8 +15,8 @@ jobs:
         with:
           repository: Doist/actions
           path: ./.doist/actions
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.DOIST_BOT_TOKEN }}
       - uses: ./.doist/actions/auto-approve-action
         if: ${{ github.event.label.name == 'Show PR' }}
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.DOIST_BOT_TOKEN }}
