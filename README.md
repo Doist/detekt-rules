@@ -15,10 +15,8 @@ dependencies {
 
 ## Release
 
-To release, update the version in the `build.gradle.kts` file and run:
+To release, just push a tag with the new version number:
 ```
-git add build.gradle.kts
-git commit -m "Release X.Y.Z"
 git tag vX.Y.Z
 git push --tags
 ```
