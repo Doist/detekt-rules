@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.doist.detekt"
-version = "1.6.1"
+version = System.getenv("VERSION")
 
 repositories {
     mavenCentral()
@@ -32,6 +32,14 @@ tasks.withType<Test>().configureEach {
 }
 
 publishing {
+    publications {
+        register<MavenPublication>("gpr") {
+            artifactId = "detekt-rules"
+            groupId = group.toString()
+            version = project.version.toString()
+            from(components["java"])
+        }
+    }
     repositories {
         maven {
             name = "GitHubPackages"
@@ -40,11 +48,6 @@ publishing {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
             }
-        }
-    }
-    publications {
-        register<MavenPublication>("gpr") {
-            from(components["java"])
         }
     }
 }
