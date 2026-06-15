@@ -10,5 +10,5 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: softprops/action-gh-release@b4025e2cdd6e8c3ebde4107d4b5a6bac5e66818b
