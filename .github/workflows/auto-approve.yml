@@ -11,7 +11,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout actions repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: Doist/actions
           path: ./.doist/actions
