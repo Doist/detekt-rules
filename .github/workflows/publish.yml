@@ -41,34 +41,41 @@ jobs:
     needs: publish
     runs-on: ubuntu-latest
     steps:
-      - name: Notify successful release
-        if: ${{ needs.publish.result == 'success' }}
-        uses: Doist/actions/post-comms-thread-comment@main
-        with:
-          comms-client-id: ${{ secrets.COMMS_DOISTBOT_CLIENT_ID }}
-          comms-client-secret: ${{ secrets.COMMS_DOISTBOT_CLIENT_SECRET }}
-          comms-username: ${{ secrets.COMMS_DOISTBOT_USER }}
-          comms-password: ${{ secrets.COMMS_DOISTBOT_PASSWORD }}
-          workspace-id: 69
-          thread-id: CeA5zVzkbNcCYWgAEyJyZ
-          groups: Cbzzm1TrEQNvwRH4VQ9Gt
-          content: "detekt-rules successfully published ${{ github.ref_name }}. [View workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+      - name: Prepare release notification
+        id: notification
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+          VERSION: ${{ github.ref_name }}
+          LIBRARY: ${{ github.event.repository.name }}
+        run: |
+          if [[ " $RESULTS " == *" failure "* ]]; then
+            result=failure
+          elif [[ " $RESULTS " == *" cancelled "* ]]; then
+            result=cancelled
+          elif [[ "$RESULTS" =~ ^success([[:space:]]+success)*$ ]]; then
+            result=success
+          else
+            echo "Unexpected dependency results: $RESULTS"
+            exit 1
+          fi
 
-      - name: Notify failed release
-        if: ${{ needs.publish.result == 'failure' }}
-        uses: Doist/actions/post-comms-thread-comment@main
-        with:
-          comms-client-id: ${{ secrets.COMMS_DOISTBOT_CLIENT_ID }}
-          comms-client-secret: ${{ secrets.COMMS_DOISTBOT_CLIENT_SECRET }}
-          comms-username: ${{ secrets.COMMS_DOISTBOT_USER }}
-          comms-password: ${{ secrets.COMMS_DOISTBOT_PASSWORD }}
-          workspace-id: 69
-          thread-id: CeA5zVzkbNcCYWgAEyJyZ
-          groups: Cbzzm1TrEQNvwRH4VQ9Gt
-          content: "Release publishing for detekt-rules failed. [View workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          run_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
-      - name: Notify cancelled release
-        if: ${{ needs.publish.result == 'cancelled' }}
+          case "$result" in
+            success)
+              content="$LIBRARY successfully published $VERSION. [View workflow run]($run_url)"
+              ;;
+            failure)
+              content="Release publishing for $LIBRARY failed. [View workflow run]($run_url)"
+              ;;
+            cancelled)
+              content="Release publishing for $LIBRARY was cancelled. [View workflow run]($run_url)"
+              ;;
+          esac
+
+          printf 'content=%s\n' "$content" >> "$GITHUB_OUTPUT"
+
+      - name: Notify release result
         uses: Doist/actions/post-comms-thread-comment@main
         with:
           comms-client-id: ${{ secrets.COMMS_DOISTBOT_CLIENT_ID }}
@@ -78,4 +85,4 @@ jobs:
           workspace-id: 69
           thread-id: CeA5zVzkbNcCYWgAEyJyZ
           groups: Cbzzm1TrEQNvwRH4VQ9Gt
-          content: "Release publishing for detekt-rules was cancelled. [View workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          content: ${{ steps.notification.outputs.content }}
