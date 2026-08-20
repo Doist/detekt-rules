@@ -35,3 +35,47 @@ jobs:
           VERSION: ${{ steps.get_tag_version.outputs.VERSION }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
+
+  notify:
+    if: ${{ always() }}
+    needs: publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify successful release
+        if: ${{ needs.publish.result == 'success' }}
+        uses: Doist/actions/post-comms-thread-comment@main
+        with:
+          comms-client-id: ${{ secrets.COMMS_DOISTBOT_CLIENT_ID }}
+          comms-client-secret: ${{ secrets.COMMS_DOISTBOT_CLIENT_SECRET }}
+          comms-username: ${{ secrets.COMMS_DOISTBOT_USER }}
+          comms-password: ${{ secrets.COMMS_DOISTBOT_PASSWORD }}
+          workspace-id: 69
+          thread-id: CeA5zVzkbNcCYWgAEyJyZ
+          groups: Cbzzm1TrEQNvwRH4VQ9Gt
+          content: "detekt-rules successfully published ${{ github.ref_name }}. [View workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+
+      - name: Notify failed release
+        if: ${{ needs.publish.result == 'failure' }}
+        uses: Doist/actions/post-comms-thread-comment@main
+        with:
+          comms-client-id: ${{ secrets.COMMS_DOISTBOT_CLIENT_ID }}
+          comms-client-secret: ${{ secrets.COMMS_DOISTBOT_CLIENT_SECRET }}
+          comms-username: ${{ secrets.COMMS_DOISTBOT_USER }}
+          comms-password: ${{ secrets.COMMS_DOISTBOT_PASSWORD }}
+          workspace-id: 69
+          thread-id: CeA5zVzkbNcCYWgAEyJyZ
+          groups: Cbzzm1TrEQNvwRH4VQ9Gt
+          content: "Release publishing for detekt-rules failed. [View workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+
+      - name: Notify cancelled release
+        if: ${{ needs.publish.result == 'cancelled' }}
+        uses: Doist/actions/post-comms-thread-comment@main
+        with:
+          comms-client-id: ${{ secrets.COMMS_DOISTBOT_CLIENT_ID }}
+          comms-client-secret: ${{ secrets.COMMS_DOISTBOT_CLIENT_SECRET }}
+          comms-username: ${{ secrets.COMMS_DOISTBOT_USER }}
+          comms-password: ${{ secrets.COMMS_DOISTBOT_PASSWORD }}
+          workspace-id: 69
+          thread-id: CeA5zVzkbNcCYWgAEyJyZ
+          groups: Cbzzm1TrEQNvwRH4VQ9Gt
+          content: "Release publishing for detekt-rules was cancelled. [View workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
