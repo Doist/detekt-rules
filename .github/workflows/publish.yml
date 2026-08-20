@@ -35,3 +35,54 @@ jobs:
           VERSION: ${{ steps.get_tag_version.outputs.VERSION }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
+
+  notify:
+    if: ${{ always() }}
+    needs: publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare release notification
+        id: notification
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+          VERSION: ${{ github.ref_name }}
+          LIBRARY: ${{ github.event.repository.name }}
+        run: |
+          if [[ " $RESULTS " == *" failure "* ]]; then
+            result=failure
+          elif [[ " $RESULTS " == *" cancelled "* ]]; then
+            result=cancelled
+          elif [[ "$RESULTS" =~ ^success([[:space:]]+success)*$ ]]; then
+            result=success
+          else
+            echo "Unexpected dependency results: $RESULTS"
+            exit 1
+          fi
+
+          run_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+
+          case "$result" in
+            success)
+              content="$LIBRARY successfully published $VERSION. [View workflow run]($run_url)"
+              ;;
+            failure)
+              content="Release publishing for $LIBRARY failed. [View workflow run]($run_url)"
+              ;;
+            cancelled)
+              content="Release publishing for $LIBRARY was cancelled. [View workflow run]($run_url)"
+              ;;
+          esac
+
+          printf 'content=%s\n' "$content" >> "$GITHUB_OUTPUT"
+
+      - name: Notify release result
+        uses: Doist/actions/post-comms-thread-comment@main
+        with:
+          comms-client-id: ${{ secrets.COMMS_DOISTBOT_CLIENT_ID }}
+          comms-client-secret: ${{ secrets.COMMS_DOISTBOT_CLIENT_SECRET }}
+          comms-username: ${{ secrets.COMMS_DOISTBOT_USER }}
+          comms-password: ${{ secrets.COMMS_DOISTBOT_PASSWORD }}
+          workspace-id: 69
+          thread-id: CeA5zVzkbNcCYWgAEyJyZ
+          groups: Cbzzm1TrEQNvwRH4VQ9Gt
+          content: ${{ steps.notification.outputs.content }}
